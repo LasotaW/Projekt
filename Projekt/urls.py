@@ -20,5 +20,6 @@ from wyszukiwarka import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.loginUser ,name="login"),
-    path('auth/', views.searchBar, name = "auth"),
+    path('search/', views.searchBar, name = "search"),
+    path('addUser/', views.addUser, name = "addUser")
 ]

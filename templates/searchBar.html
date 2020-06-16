@@ -21,7 +21,7 @@
 
             .searchTerm {
             width: 100%;
-            border: 3px solid #00B4CC;
+            border: 3px solid #827ffe;
             border-right: none;
             padding: 5px;
             height: 20px;
@@ -37,13 +37,19 @@
             .searchButton {
             width: 40px;
             height: 36px;
-            border: 1px solid #00B4CC;
-            background: #00B4CC;
+            border: 1px solid #827ffe;
+            background: #827ffe;
             text-align: center;
             color: #fff;
             border-radius: 0 5px 5px 0;
             cursor: pointer;
             font-size: 20px;
+            transition: 0.2s;
+            }
+
+            .searchButton:hover {
+                color: black;
+                transition: 0.2s;
             }
 
             /*Resize the wrap to see the search bar change!*/
@@ -58,18 +64,71 @@
             h1{
                 text-align: center;
             }
+
+            .addUser-btn{
+                padding: 10px;
+                background-color: #827ffe;
+                border: none;
+                border-radius: 5px;
+                color: #fff;
+                transition: 0.5s;
+                font-size: 15px;
+            }
+
+            .addUser-btn:hover{
+                cursor: pointer;
+                background-color: #4543b4;
+                transition: 0.5s;
+            }
         </style>
 
     </head>
     <body>
         <div class="wrap">
             <h1>Wyszukaj klienta</h1>
-            <div class="search">
-               <input type="text" class="searchTerm" placeholder="Podaj dane klienta">
+            <form class="search" method="POST" action="{% url 'search' %}">
+                {%csrf_token%}
+               <input type="text" class="searchTerm" name="search" value="{{ request.GET.search }}" placeholder="Podaj dane klienta">
                <button type="submit" class="searchButton">
                     <i class="fa fa-search"></i>
               </button>
+            </form>
+            <div>
+                <ul class="messages">
+                    {% for k in messages %}
+                    <li style="color:Red">{{ k }} <a href="/admin/wyszukiwarka/klienci/add/"><button class="addUser-btn">Dodaj użytkownika</button></a></li>
+                    {% endfor %}
+                </ul>
             </div>
-         </div>
+            <div style="color:blue">
+                {% if sr %}
+                    {% for k in sr %}
+                    <table>
+                        <tr>
+                            <td>Numer klienta: </td>
+                            <td>{{ k.Numer_klienta }}</td>
+                        </tr>
+                        <tr>
+                            <td>Imię: </td>
+                            <td>{{ k.Imię }}</td>
+                        </tr>
+                        <tr>
+                            <td>Nazwisko: </td>
+                            <td>{{ k.Nazwisko }}</td>
+                        </tr>
+                        <tr>
+                            <td>Numer telefonu: </td>
+                            <td>{{ k.Numer_telefonu }}</td>
+                        </tr>
+                        <tr>
+                            <td>Uwagi: </td>
+                            <td>{{ k.Uwagi }}</td>
+                        </tr>
+                    </table>
+                    <hr>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
     </body>
 </html>
