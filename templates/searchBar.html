@@ -86,12 +86,19 @@
     <body>
         <div class="wrap">
             <h1>Wyszukaj klienta</h1>
-            <form class="search" method="POST" action="{% url 'search' %}">
+            <form autocomplete="off" class="search" method="POST" action="{% url 'search' %}">
                 {%csrf_token%}
-               <input type="text" class="searchTerm" name="search" value="{{ request.GET.search }}" placeholder="Podaj dane klienta">
+               <input list="ddlcomplete" type="text" class="searchTerm" name="search" value="{{ request.GET.search }}" placeholder="Podaj dane klienta">
                <button type="submit" class="searchButton">
                     <i class="fa fa-search"></i>
               </button>
+              <datalist id="ddlcomplete">
+                  {% for result in Klienci %}
+                    <option>{{ result.Numer_klienta }}</option>
+                    <option>{{ result.Imię }} </option>
+                    <option>{{ result.Nazwisko }}</option>
+                  {% endfor %}
+              </datalist>
             </form>
             <div>
                 <ul class="messages">

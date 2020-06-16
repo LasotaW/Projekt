@@ -23,10 +23,13 @@ def loginUser(request):
 
 
 def searchBar(request):
+   result = Klienci.objects.all()
+
    if request.method == 'POST':
       query = request.POST['search']
 
       if query:
+
          match = Klienci.objects.filter(
             Q(Numer_klienta__icontains = query) |
             Q(Imię__icontains = query) |
@@ -34,11 +37,11 @@ def searchBar(request):
          )
 
          if match:
-            return render(request, 'searchBar.html', {'sr':match})
+            return render(request, 'searchBar.html', {'sr':match, 'Klienci':result})
          else:
             messages.error(request, 'Nie znaleziono danych.')
       else:
          return redirect('search')
 
 
-   return render(request, 'searchBar.html')
+   return render(request, 'searchBar.html', {'Klienci':result})
